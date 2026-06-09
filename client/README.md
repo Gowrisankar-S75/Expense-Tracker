@@ -1,20 +1,40 @@
-Expense Tracker
+# Expense Tracker
 
-Features
-- User Authentication (JWT)
+A full-stack MERN Expense Tracker application with JWT Authentication.
+
+## Features
+
+- User Registration
+- User Login
+- JWT Authentication
 - Add Expense
 - Edit Expense
 - Delete Expense
 - Expense Summary
 - Income & Expense Tracking
-- Filtering
-- MongoDB Atlas Integration
+- Expense Filtering
 
-Tech Stack
+## Tech Stack
+
 - React
 - Node.js
 - Express.js
-- MongoDB
-- JWT Authentication
+- MongoDB Atlas
+- JWT
+- Axios
 
-Setup Instructions
+## Installation
+
+### Backend
+
+cd server
+npm install
+
+### Frontend
+
+cd client
+npm install
+
+### Run
+
+npm run dev
