@@ -85,11 +85,10 @@ useEffect(() => {
 }, [filterType, search, page, token]);
 
 
-fetchSummary();
-fetchExpenses();
 
 
-}, [filterType, search, page]);
+
+
 
 const handleAddExpense = async (e) => {
   e.preventDefault();
