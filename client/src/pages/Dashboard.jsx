@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {PieChart,Pie,Cell,Legend,Tooltip,BarChart,Bar,XAxis,YAxis,CartesianGrid,ResponsiveContainer,} from "recharts";
+
 import api from "../services/api";
 
 function Dashboard() {
@@ -140,7 +142,7 @@ headers: {
 Authorization: `Bearer ${token}`,
 },
 });
-
+S
 
   alert("Expense Deleted");
 
@@ -174,6 +176,39 @@ navigate("/");
 
 
 };
+const chartData = [
+  {
+    name: "Income",
+    value: summary.totalIncome,
+  },
+  {
+    name: "Expense",
+    value: summary.totalExpense,
+  },
+];
+
+const COLORS = ["#22c55e", "#ef4444"];
+
+const categoryData = expenses.reduce(
+  (acc, expense) => {
+    const existing = acc.find(
+      (item) =>
+        item.category === expense.category
+    );
+
+    if (existing) {
+      existing.amount += expense.amount;
+    } else {
+      acc.push({
+        category: expense.category,
+        amount: expense.amount,
+      });
+    }
+
+    return acc;
+  },
+  []
+);
 
 return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6xl mx-auto">
 
@@ -228,6 +263,61 @@ return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6x
       </div>
 
     </div>
+
+    <div className="bg-white p-6 rounded-xl shadow mb-8">
+  <h2 className="text-2xl font-bold mb-4">
+    Income vs Expense
+  </h2>
+
+  <div className="flex justify-center">
+    <PieChart width={400} height={300}>
+      <Pie
+        data={chartData}
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        dataKey="value"
+        label
+      >
+        {chartData.map((entry, index) => (
+          <Cell
+            key={index}
+            fill={COLORS[index]}
+          />
+        ))}
+      </Pie>
+
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  </div>
+  </div>
+
+  <div className="bg-white p-6 rounded-xl shadow mb-8">
+  <h2 className="text-2xl font-bold mb-4">
+    Expenses By Category
+  </h2>
+
+  <ResponsiveContainer
+    width="100%"
+    height={300}
+  >
+    <BarChart data={categoryData}>
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis dataKey="category" />
+
+      <YAxis />
+
+      <Tooltip />
+
+      <Bar
+        dataKey="amount"
+        fill="#3b82f6"
+      />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 
     <div className="mb-6">
       <select
