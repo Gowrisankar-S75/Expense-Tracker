@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {PieChart,Pie,Cell,Legend,Tooltip,BarChart,Bar,XAxis,YAxis,CartesianGrid,ResponsiveContainer,} from "recharts";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import api from "../services/api";
 
 function Dashboard() {
@@ -51,11 +52,11 @@ try {
 let url = `/expenses?page=${page}`;
 
 if (filterType) {
-  url += `type=${filterType}&`;
+  url += `&type=${filterType}`;
 }
 
 if (search) {
-  url += `search=${search}`;
+  url += `&search=${search}`;
 }
 
   const res = await api.get(url, {
@@ -149,7 +150,7 @@ headers: {
 Authorization: `Bearer ${token}`,
 },
 });
-S
+
 
   toast.success("Expense Deleted");
 
