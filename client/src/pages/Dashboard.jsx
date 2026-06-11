@@ -217,6 +217,40 @@ const categoryData = expenses.reduce(
   []
 );
 
+const exportCSV = () => {
+  const headers = [
+    "Title",
+    "Amount",
+    "Category",
+    "Type",
+  ];
+
+  const rows = expenses.map((expense) => [
+    expense.title,
+    expense.amount,
+    expense.category,
+    expense.type,
+  ]);
+
+  const csvContent = [
+    headers.join(","),
+    ...rows.map((row) => row.join(",")),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "expenses.csv";
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
 return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6xl mx-auto">
 
 
@@ -395,6 +429,12 @@ return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6x
   onChange={(e) => setSearch(e.target.value)}
   className="border p-2 rounded w-full mb-4"
 />
+<button
+  onClick={exportCSV}
+  className="bg-green-500 text-white px-4 py-2 rounded"
+>
+  Export CSV
+</button>
     <h2 className="text-2xl font-bold mb-4">
       Expenses
     </h2>
