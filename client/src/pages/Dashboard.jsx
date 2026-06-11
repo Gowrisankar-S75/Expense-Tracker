@@ -107,7 +107,7 @@ try {
       }
     );
 
-    alert("Expense Updated");
+    toast.success("Expense Updated");
   } else {
     await api.post(
       "/expenses",
@@ -124,7 +124,7 @@ try {
       }
     );
 
-    alert("Expense Added");
+    toast.success("Expense Added");
   }
 
   setTitle("");
@@ -151,7 +151,7 @@ Authorization: `Bearer ${token}`,
 });
 S
 
-  alert("Expense Deleted");
+  toast.success("Expense Deleted");
 
   fetchSummary();
   fetchExpenses();

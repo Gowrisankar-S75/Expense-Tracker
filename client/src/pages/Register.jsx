@@ -22,11 +22,11 @@ function Register() {
 
       console.log(res.data);
 
-      alert("Registration Successful");
+      toast.success("Registration Successful");
 
       navigate("/");
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Something went wrong"
       );
@@ -34,50 +34,57 @@ function Register() {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
+  <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+      <h1 className="text-3xl font-bold text-center mb-6">
+        Register
+      </h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="w-full border p-3 rounded"
         />
-
-        <br />
-        <br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="w-full border p-3 rounded"
         />
-
-        <br />
-        <br />
 
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full border p-3 rounded"
         />
 
-        <br />
-        <br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white p-3 rounded hover:bg-green-600"
+        >
           Register
         </button>
       </form>
-      <p>
-  Already have an account?
-  <Link to="/"> Login</Link>
-</p>
+
+      <p className="mt-4 text-center">
+        Already have an account?{" "}
+        <Link
+          to="/"
+          className="text-blue-500 font-semibold"
+        >
+          Login
+        </Link>
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default Register;
