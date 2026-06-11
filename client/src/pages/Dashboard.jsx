@@ -67,7 +67,7 @@ const fetchExpenses = async () => {
 
     console.log("API RESPONSE:", res.data);
 
-    setExpenses(res.data.expenses);
+    setExpenses([...res.data.expenses]);
     setTotalPages(res.data.totalPages);
   } catch (error) {
     console.log(error);
@@ -75,10 +75,14 @@ const fetchExpenses = async () => {
 };
 
 useEffect(() => {
-if (!token) {
-navigate("/");
-return;
-}
+  if (!token) {
+    navigate("/");
+    return;
+  }
+
+  fetchSummary();
+  fetchExpenses();
+}, [filterType, search, page, token]);
 
 
 fetchSummary();
@@ -88,59 +92,63 @@ fetchExpenses();
 }, [filterType, search, page]);
 
 const handleAddExpense = async (e) => {
-e.preventDefault();
+  e.preventDefault();
 
-
-try {
-  if (editingId) {
-    await api.put(
-      `/expenses/${editingId}`,
-      {
-        title,
-        amount,
-        category,
-        type,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+  try {
+    if (editingId) {
+      await api.put(
+        `/expenses/${editingId}`,
+        {
+          title,
+          amount,
+          category,
+          type,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    toast.success("Expense Updated");
-  } else {
-    await api.post(
-      "/expenses",
-      {
-        title,
-        amount,
-        category,
-        type,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      toast.success("Expense Updated");
+    } else {
+      await api.post(
+        "/expenses",
+        {
+          title,
+          amount,
+          category,
+          type,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    toast.success("Expense Added");
+      toast.success("Expense Added");
+    }
+
+    setTitle("");
+    setAmount("");
+    setCategory("");
+    setType("expense");
+    setEditingId(null);
+
+    setPage(1);
+
+    await fetchSummary();
+    await fetchExpenses();
+  } catch (error) {
+    console.log(error);
+
+    toast.error(
+      error.response?.data?.message ||
+      "Something went wrong"
+    );
   }
-
-  setTitle("");
-  setAmount("");
-  setCategory("");
-  setType("expense");
-  setEditingId(null);
-
-  await fetchSummary();
-await fetchExpenses();
-} catch (error) {
-  console.log(error);
-}
-
-
 };
 
 const handleDelete = async (id) => {
