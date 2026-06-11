@@ -48,30 +48,30 @@ Authorization: `Bearer ${token}`,
 };
 
 const fetchExpenses = async () => {
-try {
-let url = `/expenses?page=${page}`;
+  try {
+    let url = `/expenses?page=${page}`;
 
-if (filterType) {
-  url += `&type=${filterType}`;
-}
+    if (filterType) {
+      url += `&type=${filterType}`;
+    }
 
-if (search) {
-  url += `&search=${search}`;
-}
+    if (search) {
+      url += `&search=${search}`;
+    }
 
-  const res = await api.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    const res = await api.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  setExpenses(res.data.expenses);
-setTotalPages(res.data.totalPages);
-} catch (error) {
-  console.log(error);
-}
+    console.log("API RESPONSE:", res.data);
 
-
+    setExpenses(res.data.expenses);
+    setTotalPages(res.data.totalPages);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 useEffect(() => {
@@ -134,8 +134,8 @@ try {
   setType("expense");
   setEditingId(null);
 
-  fetchSummary();
-  fetchExpenses();
+  await fetchSummary();
+await fetchExpenses();
 } catch (error) {
   console.log(error);
 }
@@ -154,8 +154,8 @@ Authorization: `Bearer ${token}`,
 
   toast.success("Expense Deleted");
 
-  fetchSummary();
-  fetchExpenses();
+  await fetchSummary();
+  await fetchExpenses();
 } catch (error) {
   console.log(error);
 }
