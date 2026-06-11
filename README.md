@@ -1,16 +1,38 @@
-Features
-- User Authentication (JWT)
-- Expense Management
-- Income Tracking
-- Dashboard Summary
-- Filtering
-- MongoDB Atlas Integration
-- Responsive Tailwind UI
+# Expense Tracker
 
-Tech Stack
+A full-stack MERN Expense Tracker application that helps users manage income and expenses with analytics and data export.
+
+## Features
+
+- User Authentication (JWT)
+- Add, Edit, Delete Expenses
+- Income & Expense Tracking
+- Dashboard Analytics
+- Pie Chart & Bar Chart
+- Search & Filter
+- Pagination
+- CSV Export
+- Responsive UI with Tailwind CSS
+
+## Tech Stack
+
+Frontend:
 - React
+- React Router
+- Tailwind CSS
+- Axios
+- Recharts
+
+Backend:
 - Node.js
 - Express.js
-- MongoDB
-- Tailwind CSS
-- JWT
+- MongoDB Atlas
+- JWT Authentication
+
+## Live Demo
+
+Frontend:  https://expense-tracker-mn43-git-master-gowrisankarsa75-7319s-projects.vercel.app/
+
+
+
+Backend: https://expense-tracker-1-p9wb.onrender.com/
