@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
   const [name, setName] = useState("");
