@@ -25,6 +25,9 @@ const [type, setType] = useState("expense");
 
 const [editingId, setEditingId] = useState(null);
 const [filterType, setFilterType] = useState("");
+const [search, setSearch] = useState("");
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
 
 const fetchSummary = async () => {
 try {
@@ -45,12 +48,15 @@ Authorization: `Bearer ${token}`,
 
 const fetchExpenses = async () => {
 try {
-let url = "/expenses";
+let url = `/expenses?page=${page}`;
 
+if (filterType) {
+  url += `type=${filterType}&`;
+}
 
-  if (filterType) {
-    url += `?type=${filterType}`;
-  }
+if (search) {
+  url += `search=${search}`;
+}
 
   const res = await api.get(url, {
     headers: {
@@ -58,7 +64,8 @@ let url = "/expenses";
     },
   });
 
-  setExpenses(res.data);
+  setExpenses(res.data.expenses);
+setTotalPages(res.data.totalPages);
 } catch (error) {
   console.log(error);
 }
@@ -77,7 +84,7 @@ fetchSummary();
 fetchExpenses();
 
 
-}, [filterType]);
+}, [filterType, search, page]);
 
 const handleAddExpense = async (e) => {
 e.preventDefault();
@@ -381,7 +388,13 @@ return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6x
         </button>
       </form>
     </div>
-
+    <input
+  type="text"
+  placeholder="Search expenses..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="border p-2 rounded w-full mb-4"
+/>
     <h2 className="text-2xl font-bold mb-4">
       Expenses
     </h2>
@@ -434,6 +447,29 @@ return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-6x
         ))
       )}
     </div>
+    <div className="flex gap-2 mt-6">
+
+  <button
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="bg-gray-300 px-4 py-2 rounded"
+  >
+    Previous
+  </button>
+
+  <span className="px-4 py-2">
+    Page {page}
+  </span>
+
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="bg-blue-500 text-white px-4 py-2 rounded"
+  >
+    Next
+  </button>
+
+</div>
 
   </div>
 </div>
