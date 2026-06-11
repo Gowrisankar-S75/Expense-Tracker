@@ -35,10 +35,35 @@ const getExpenses = async (req, res) => {
       filter.type = req.query.type;
     }
 
-    const expenses = await Expense.find(filter)
-      .sort({ date: -1 });
+    // Search by title
+    if (req.query.search) {
+      filter.title = {
+        $regex: req.query.search,
+        $options: "i",
+      };
+    }
+    const page = Number(req.query.page) || 1;
+    const limit = 5;
 
-    res.status(200).json(expenses);
+    const skip = (page - 1) * limit;
+
+    const expenses = await Expense.find(filter)
+  .sort({ date: -1 })
+  .skip(skip)
+  .limit(limit);
+   
+
+  const totalExpenses = await Expense.countDocuments(filter);
+
+const totalPages = Math.ceil(
+  totalExpenses / limit
+);
+
+    res.status(200).json({
+  expenses,
+  totalPages,
+  currentPage: page,
+});
   } catch (error) {
     res.status(500).json({
       message: error.message,
