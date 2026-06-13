@@ -5,6 +5,8 @@ const app = express();
 const authRoutes = require("./routes/authRoutes");
 const connectDB = require("./config/db");
 const expenseRoutes = require("./routes/expenseRoutes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("../swagger");
 
 connectDB();
 
@@ -19,6 +21,12 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
