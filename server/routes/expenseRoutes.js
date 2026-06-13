@@ -19,9 +19,36 @@ const { protect } = require("../middleware/authMiddleware");
  *     tags: [Expenses]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - amount
+ *               - category
+ *               - type
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Rent
+ *               amount:
+ *                 type: number
+ *                 example: 7500
+ *               category:
+ *                 type: string
+ *                 example: Living
+ *               type:
+ *                 type: string
+ *                 enum:
+ *                   - income
+ *                   - expense
+ *                 example: expense
  *     responses:
  *       201:
- *         description: Expense created
+ *         description: Expense created successfully
  */
 router.post("/", protect, createExpense);
 
@@ -33,9 +60,27 @@ router.post("/", protect, createExpense);
  *     tags: [Expenses]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         example: 1
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         example: rent
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - income
+ *             - expense
  *     responses:
  *       200:
- *         description: List of expenses
+ *         description: Expenses retrieved successfully
  */
 
 router.get("/", protect, getExpenses);
@@ -74,11 +119,31 @@ router.delete("/:id", protect, deleteExpense);
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Updated Rent
+ *               amount:
+ *                 type: number
+ *                 example: 9000
+ *               category:
+ *                 type: string
+ *                 example: Living
+ *               type:
+ *                 type: string
+ *                 enum:
+ *                   - income
+ *                   - expense
  *     responses:
  *       200:
- *         description: Expense updated
+ *         description: Expense updated successfully
  */
-
 router.put("/:id", protect, updateExpense);
 
 /**
