@@ -31,9 +31,12 @@ Backend:
 
 ## Live Demo
 
-Frontend:  https://expense-tracker-mn43-git-master-gowrisankarsa75-7319s-projects.vercel.app/
+Frontend:
+https://expense-tracker-f7qp.vercel.app
 
+Backend:
+https://expense-tracker-1-p9wb.onrender.com
 
-
-Backend: https://expense-tracker-1-p9wb.onrender.com/# test
+Swagger:
+https://expense-tracker-1-p9wb.onrender.com/api-docs
 
